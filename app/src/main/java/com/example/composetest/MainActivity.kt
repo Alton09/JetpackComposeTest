@@ -52,23 +52,6 @@ fun NewsStory(viewStateLiveData: LiveData<TestViewState>) {
                 .clip(shape = RoundedCornerShape(4.dp))
             Image(image, modifier = imageModifier, contentScale = ContentScale.Crop)
             Spacer(Modifier.preferredHeight(16.dp))
-            Text(
-                "A day wandering through the sandhills " +
-                        "in Shark Fin Cove, and a few of the " +
-                        "sights I saw",
-                style = typography.h6,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                "Davenport, California",
-                style = typography.body2
-            )
-            Text(
-                "December 2018",
-                style = typography.body2
-            )
-
             viewState.value?.let { renderViewState(it) }
         }
     }
