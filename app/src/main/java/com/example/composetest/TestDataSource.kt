@@ -5,10 +5,10 @@ import kotlinx.coroutines.delay
 class TestDataSource {
 
     val items = mutableListOf(
-            "Bread",
-            "Cherries",
-            "Milk",
-            "Tofu"
+            "Line1",
+            "Line2",
+            "Line3",
+            "Line4"
     )
 
     suspend fun retrieveItems(): List<String> {
