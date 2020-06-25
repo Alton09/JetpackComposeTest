@@ -1,8 +1,12 @@
 package com.example.composetest
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.ui.core.ContentScale
 import androidx.ui.core.Modifier
 import androidx.ui.core.clip
@@ -11,6 +15,7 @@ import androidx.ui.foundation.Image
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.layout.*
+import androidx.ui.livedata.observeAsState
 import androidx.ui.material.MaterialTheme
 import androidx.ui.res.imageResource
 import androidx.ui.text.style.TextOverflow
@@ -23,15 +28,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val viewModel = viewModels<TestViewModel> { TestViewModel.TestViewModelFactory() }
+
         setContent {
-            Text("Hello World!")
+            NewsStory(viewStateLiveData = viewModel.value.viewState)
         }
     }
 }
 
 @Composable
-fun NewsStory() {
+fun NewsStory(viewStateLiveData: LiveData<TestViewState>) {
     val image = imageResource(R.drawable.header)
+    val viewState = viewStateLiveData.observeAsState()
 
     MaterialTheme {
         Column(
@@ -54,6 +63,10 @@ fun NewsStory() {
                 style = typography.body2)
             Text("December 2018",
                 style = typography.body2)
+            viewState.value?.retrievedItems?.forEach {
+                Text(it,
+                    style = typography.body2)
+            }
         }
     }
 }
@@ -61,5 +74,5 @@ fun NewsStory() {
 @Preview
 @Composable
 fun DefaultPreview() {
-    NewsStory()
+    NewsStory(MutableLiveData(TestViewState(retrievedItems = listOf("Hello!"))))
 }
